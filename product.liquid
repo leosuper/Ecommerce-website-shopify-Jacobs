@@ -63,15 +63,18 @@
               <link itemprop="availability" href="http://schema.org/OutOfStock" />
               {% endif %}
 
-              <div id="price" class="detail-price" itemprop="price">
+              <div class="product-price">
+                <div >
+                {% if variant_tmp.compare_at_price > variant_tmp.price %}
+                <h3 style="margin-top: 5px">List Price: <span style="text-decoration:line-through">{{ variant_tmp.compare_at_price | money }}</span></h3>
+                  <h3 style="margin-top: 5px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price: <span style="color: red">{{ variant_tmp.price | money }}</span></h3>
+                  <h3 style="margin-top: 5px">You Save: <span style="color: red">{{ variant_tmp.compare_at_price | minus: variant_tmp.price | money }} ({{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%)</span></h3>          
+				{% else %}
+                  <h3>List Price: {{ variant_tmp.price | money }}</div></h3>
                   
-                  {% if variant_tmp.compare_at_price > variant_tmp.price %}
-                  <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
-                  
-                  <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%</span>
-                  {% endif %}
-                  <div class="price">{{ variant_tmp.price | money }}</div>
+                {% endif %}
                 </div>
+              </div>
 
               <div class="sharing-btn">
                 <span>{{'products.product.share' | t}}</span>
